@@ -25,24 +25,12 @@
 				<tbody>
 					@foreach ($products as $prod)
 						<tr>
-							<td>
-								{{$prod->id}}
-							</td>
-							<td>
-								{{$prod->title}}
-							</td>
-							<td>
-								{{$prod->description}}
-							</td>
-							<td>
-								{{$prod->price}}
-							</td>
-							<td>
-								{{$prod->stock}}
-							</td>
-							<td>
-								{{$prod->status}}
-							</td>
+							<td>{{$prod->id}}</td>
+							<td>{{$prod->title}}</td>
+							<td>{{$prod->description}}</td>
+							<td>{{$prod->price}}</td>
+							<td>{{$prod->stock}}</td>
+							<td>{{$prod->status}}</td>
 							<td>
 								<a href="{{route('products.show', ['product' => $prod->id])}}" class="btn btn-link">Show</a>
 								<a href="{{route('products.edit', ['product' => $prod->id])}}" class="btn btn-link">Edit</a>

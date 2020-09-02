@@ -2,24 +2,25 @@
 
 @section('content')
 	<h1>Create a product</h1>
+
 	<form method="POST" action="{{ route('products.update', ['product' => $product->id]) }}">
 		@csrf
 		@method('PATCH')
 		<div class="form-row">
 			<label>Title</label>
-			<input class="form" type="text" name="title" value="{{old('title') ?? $product->title}}" required>
+			<input class="form-control" type="text" name="title" value="{{old('title') ?? $product->title}}" required>
 		</div>
 		<div class="form-row">
 			<label>Description</label>
-			<input class="form" type="text" name="description" value="{{old('description') ?? $product->description}}" required>
+			<input class="form-control" type="text" name="description" value="{{old('description') ?? $product->description}}" required>
 		</div>
 		<div class="form-row">
 			<label>Price</label>
-			<input class="form" type="number" min="1.00" step="0.01" name="price" value="{{old('price') ?? $product->price}}" required>
+			<input class="form-control" type="number" min="1.00" step="0.01" name="price" value="{{old('price') ?? $product->price}}" required>
 		</div>
 		<div class="form-row">
 			<label>Stock</label>
-			<input class="form" type="number" min="0" name="stock" value="{{old('stock') ?? $product->stock}}" required>
+			<input class="form-control" type="number" min="0" name="stock" value="{{old('stock') ?? $product->stock}}" required>
 		</div>
 		<div class="form-row">
 			<label>Status</label>
@@ -29,7 +30,7 @@
 			</select>
 		</div>
 		<div class="form-row mt-3">
-			<button type="submit" class="btn btn-primary btn-lg">Edit product</button>
+			<button type="submit" class="btn btn-primary btn-lg mt-3">Edit product</button>
 		</div>
 	</form>
 @endsection
