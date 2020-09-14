@@ -3,6 +3,7 @@
 namespace App;
 use App\Order;
 use App\Payment;
+use App\Image;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -49,8 +50,12 @@ class User extends Authenticatable
     public function orders(){
         return $this->hasMany(Order::class, 'customer_id');
     }
-    
+
     public function payments(){
         return $this->hasManyThrough(Payment::class, Order::class, 'customer_id');
+    }
+
+    public function image(){
+        return $this->morphOne(Image::class, 'imageable');
     }
 }
