@@ -1,6 +1,8 @@
 <?php
 
 namespace App;
+use App\Order;
+use App\Payment;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'admin_since',
     ];
 
     /**
@@ -36,4 +38,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['admin_since'];
+
+    public function orders(){
+        return $this->hasMany(Order::class, 'customer_id');
+    }
+    
+    public function payments(){
+        return $this->hasManyThrough(Payment::class, Order::class, 'customer_id');
+    }
 }

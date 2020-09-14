@@ -33,7 +33,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('products.index') }}">
+                                Products
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -82,7 +86,7 @@
                 @if (isset($errors) && $errors->any())
                     <div class="alert alert-danger">
                         <ul>
-                            @foreach ($errors as $error)
+                            @foreach ($errors->all() as $error)
                                 <li>{{$error}}</li>
                             @endforeach
                         </ul>

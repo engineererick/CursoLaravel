@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller {
+	public function __construct()
+    {
+        $this->middleware('auth'); //->only('index'); ['', ''] 
+    }
+
 	public function index() {
 		return View('products.index')->with([
 			'products' => Product::all(),
@@ -15,60 +21,29 @@ class ProductController extends Controller {
 		return View('products.create');
 	}
 
-	public function store() {
-		$rules = [
-			'title' => ['required', 'max:255'],
-			'description' => ['required', 'max:1000'],
-			'price' => ['required', 'min:1'],
-			'stock' => ['required', 'min:0'],
-			'status' => ['required', 'in:available,unavailable'],
-		];
-
-		request()->validate($rules);
-
-		if (request()->status == 'available' && request()->stock == 0) {
-			return redirect()
-				->back()
-				->withInput(request()->all())
-				->withErrors('If available must have stock');
-		}
-
-		$product = Product::create(request()->all());
+	public function store(ProductRequest $request) {
+		$product = Product::create($request->validated());
 
 		return redirect()
 			->route('products.index')
 			->withSuccess("The new product with Id {$product->id} was created");
 	}
 
-	public function show($product) {
-		$product = Product::findOrFail($product);
-
+	public function show(Product $product) {
 		return View('products.show')->with([
 			'product' => $product,
 			'html' => '<h2>Pasando código HTML</h2>',
 		]);
 	}
 
-	public function edit($product) {
+	public function edit(Product $product) {
 		return View('products.edit')->with([
-			'product' => Product::findOrFail($product),
+			'product' => $product,
 		]);
 	}
 
-	public function update($product) {
-		$rules = [
-			'title' => ['required', 'max:255'],
-			'description' => ['required', 'max:1000'],
-			'price' => ['required', 'min:1'],
-			'stock' => ['required', 'min:0'],
-			'status' => ['required', 'in:available,unavailable'],
-		];
-
-		request()->validate($rules);
-
-		$product = Product::findOrFail($product);
-
-		$product->update(request()->all());
+	public function update(ProductRequest $request, Product $product) {
+		$product->update($request->validated());
 
 		session()->flash('success', "The new product with Id {$product->id} was edited");
 
@@ -77,9 +52,7 @@ class ProductController extends Controller {
 			->withSuccess("The product with Id {$product->id} was edited");
 	}
 
-	public function destroy($product) {
-		$product = Product::findOrFail($product);
-
+	public function destroy(Product $product) {
 		$product->delete();
 
 		return redirect()->route('products.index')
