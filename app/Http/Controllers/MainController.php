@@ -6,9 +6,9 @@ use App\Product;
 
 class MainController extends Controller {
 	public function index() {
-		// return View('welcome');
+		$products = Product::available()->get();
 		return View('welcome')->with([
-			'products' => Product::all(),
+			'products' => $products,
 		]);
 	}
 }
